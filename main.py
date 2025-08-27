@@ -12,8 +12,8 @@ client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 JIRA_BASE = os.getenv("JIRA_BASE")  # e.g. https://dialpad.atlassian.net
 JIRA_EMAIL = os.getenv("JIRA_EMAIL")
 JIRA_API_TOKEN = os.getenv("JIRA_API_TOKEN")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-GITHUB_REPO = os.getenv("GITHUB_REPO")  # e.g. dp-sazedmonsur/dialpad-mini
+GITHUB_TOKEN = os.getenv("DP_QA_GH_TOKEN")
+GITHUB_REPO = os.getenv("DP_QA_GH_REPO")
 
 # App creds (kept outside Jira)
 APP_URL = os.getenv("APP_URL", "https://dialpad-mini.lovable.app/")
