@@ -56,7 +56,7 @@ async def generate_tests(req: Request):
     # --- Prompt with selectors + flow ---
     prompt = f"""
 You are an expert SDET.
-Generate **runnable Playwright E2E test(s) in Python (pytest)** using the following inputs:
+Generate **a full Playwright E2E pytest file in Python** using the following inputs.
 
 Jira Ticket {jira_id}:
 Title: {jira_title}
@@ -84,17 +84,19 @@ Selectors cheat sheet:
 - Logout button: text="Log Out"
 
 Instructions:
-1. Treat the Jira description as **acceptance criteria** with Preconditions, Steps, and Expected Results.
-2. Map each step into Playwright async actions.
-3. Include imports, pytest fixtures, and test functions.
-4. Use the selectors provided above whenever possible (fall back to semantic text selectors if needed).
-5. Always generate a **complete runnable pytest file** — no explanation or markdown fences.
-6. Add comments above each block to describe what is being tested.
-7. If the Jira/PR describes a **UI text replacement or copy change**:
-   - Assert that the old text does NOT appear.
-   - Assert that the new text DOES appear and is visible.
-8. If inputs (e.g., phone numbers, emails) are mentioned in Jira, use those values explicitly in the test.
-9. Ensure tests cover both positive and negative paths implied by the Jira description.
+1. Parse the Jira description as **acceptance criteria** (preconditions, steps, expected results).
+2. From these acceptance criteria + PR diff, **derive the complete set of test scenarios required for full coverage.**
+   - Include all positive, negative, and edge cases implied by the Jira/PR.
+   - If multiple flows or inputs are mentioned, cover each in a separate pytest test function.
+   - Ensure **100% coverage of requirements** (do not omit corner cases).
+3. For each scenario, generate a **separate pytest test function** with a descriptive name.
+4. Use pytest fixtures for browser/page setup (no test should depend on another).
+5. Always output a **single, complete, runnable pytest file** (no explanation, no markdown fences).
+6. Add comments above each test explaining its purpose.
+7. For UI text replacement or copy changes:
+   - Assert that the old text is NOT visible.
+   - Assert that the new text IS visible.
+8. Use explicit values from Jira (e.g., phone number `123456789`) wherever given.
 """
 
 
